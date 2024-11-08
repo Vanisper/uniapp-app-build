@@ -1,0 +1,8 @@
+node_modules
+
+Android
+IOS
+
+# macos files
+*.DS_Store
+__MACOSX
