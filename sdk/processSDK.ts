@@ -1,14 +1,15 @@
 import fs from "node:fs";
 import path from "node:path";
+import ProgressBar from "progress";
+import { config } from "../config";
+import { IProcessListItem, ISDKInfo } from "../type";
+
 import {
   unzipFile,
   calculateFileMD5,
   isDirectoryEmptySync,
   macos_files,
 } from "./_common";
-import { config } from "../config";
-import { IProcessListItem, ISDKInfo } from "../type";
-import ProgressBar from "progress";
 
 const temp_sdk_path = path.resolve(config.uniapp_sdk_path, "temp");
 

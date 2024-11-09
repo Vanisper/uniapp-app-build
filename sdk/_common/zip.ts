@@ -1,6 +1,5 @@
-import fs from "fs";
-import path from "path";
-import iconv from "iconv-lite";
+import fs from "node:fs";
+import path from "node:path";
 import ProgressBar from "progress";
 import AdmZip from "adm-zip";
 import StreamZip from "node-stream-zip";
@@ -86,12 +85,6 @@ export function unzipFile(
           if (shouldRemoveTopLevel) {
             entryName = entryName.split("/").slice(1).join("/");
           }
-
-          // 处理文件名编码，转换为 UTF-8
-          // const decodedName = iconv.decode(
-          //   Buffer.from(entryName, "binary"),
-          //   encoding
-          // );
 
           const entryPath = path.join(outputDir, entryName);
 

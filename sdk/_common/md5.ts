@@ -1,5 +1,5 @@
-import crypto from "node:crypto";
 import fs from "node:fs";
+import crypto from "node:crypto";
 import ProgressBar from "progress";
 
 // 浏览器环境下的 MD5 计算
