@@ -1,0 +1,50 @@
+diff --git a/node_stream_zip.js b/node_stream_zip.js
+index d95bbefbf6ecd5af51c85241f5321cb522583d15..e6b6e94da749c016bc8a79691ae13bf56c9d9095 100644
+--- a/node_stream_zip.js
++++ b/node_stream_zip.js
+@@ -130,6 +130,7 @@ const consts = {
+     ID_IBM1: 0x0065,
+     ID_IBM2: 0x0066,
+     ID_POSZIP: 0x4690,
++    ID_UNICODE_PATH: 0x7075,
+ 
+     EF_ZIP64_OR_32: 0xffffffff,
+     EF_ZIP64_OR_16: 0xffff,
+@@ -910,10 +911,24 @@ class ZipEntry {
+             if (consts.ID_ZIP64 === signature) {
+                 this.parseZip64Extra(data, offset, size);
+             }
++            if (consts.ID_UNICODE_PATH === signature) {
++                this.parseUnicodeFileName(data, offset, size);
++            }
+             offset += size;
+         }
+     }
+ 
++    parseUnicodeFileName(data, offset, length) {
++        readUInt8(data, offset) // version
++        offset += 1
++        length -= 1
++        var nameCRC32 = readUInt32LE(data, offset)
++        offset += 4
++        length -= 4
++        const nameData = data.slice(offset, (offset += length));
++        this.name = nameData.toString('utf-8')
++    }
++
+     parseZip64Extra(data, offset, length) {
+         if (length >= 8 && this.size === consts.EF_ZIP64_OR_32) {
+             this.size = readUInt64LE(data, offset);
+@@ -1207,4 +1222,12 @@ function readUInt64LE(buffer, offset) {
+     return buffer.readUInt32LE(offset + 4) * 0x0000000100000000 + buffer.readUInt32LE(offset);
+ }
+ 
++function readUInt32LE(buffer, offset) {
++    return buffer.readUInt32LE(offset);
++}
++
++function readUInt8(buffer, offset) {
++    return buffer.readUInt8(offset)
++}
++
+ module.exports = StreamZip;
