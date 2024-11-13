@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "uniapp自建打包服务",
   "scripts": {
-    "process:sdk": "esno ./sdk/processSDK.ts"
+    "process:sdk": "esno ./sdk/process/index.ts"
   },
   "keywords": [
     "uniapp",
@@ -17,6 +17,7 @@
   "devDependencies": {
     "@types/adm-zip": "^0.5.5",
     "@types/progress": "^2.0.7",
+    "@uni-helper/vite-plugin-uni-manifest": "^0.2.7",
     "adm-zip": "^0.5.16",
     "esno": "^4.8.0",
     "iconv-lite": "^0.6.3",
