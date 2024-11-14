@@ -165,9 +165,17 @@ class ProcessSDK {
       fs.unlinkSync(app_dist_path);
 
       const android = new ProcessAndroid(unzip_target);
-      result[temp_name] = android;
+      const dist_name = `${android.app_name}_${android.app_version.join(".")}`;
+      result[dist_name] = android;
+      if (temp_name !== dist_name) {
+        fs.renameSync(unzip_target, path.join(config.app_dist_path, dist_name));
+      }
     }
   }
 
-  console.log(result);
+  // 写入 task.json
+  fs.writeFileSync(
+    path.join(config.app_dist_path, "task.json"),
+    JSON.stringify(result, null, 2)
+  );
 })();
